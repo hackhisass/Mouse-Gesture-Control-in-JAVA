@@ -1,0 +1,72 @@
+//this code uses the mouse gestures library to create a gesture controlled password
+//similar to pattern unlock in smart phones
+
+
+package others;
+
+
+
+import java.awt.Color;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
+import com.smardec.mousegestures.MouseGestures;
+import com.smardec.mousegestures.MouseGesturesListener;
+
+public class mouse extends JFrame{
+	public void init(){
+		 final String text = "enter password";
+		
+		 setDefaultCloseOperation(EXIT_ON_CLOSE);
+		 setTitle("JavaSwing.net Mouse Gesture demo");
+		 setSize(800 , 800);
+		 final JLabel label = new JLabel(text);
+		 getContentPane().add(label);
+		 
+		 MouseGestures mouseGestures = new MouseGestures();
+		 mouseGestures.setMouseButton(MouseEvent.NOBUTTON);
+		 
+ mouseGestures.addMouseGesturesListener(new MouseGesturesListener() {
+        public void gestureMovementRecognized(String currentGesture) {
+        	//label.setText(currentGesture);
+        	if(currentGesture.equals("DRULDR"))//here 'D' represents down and similarly 'R'-Right,'L'-Left,'U'-up so druldr is my password pattern
+        		{
+        		label.setText("Accepted");
+        		
+        		}
+        	/*
+        	label.setText("    " + currentGesture);
+        	if("DRUR".equals(currentGesture)){
+        		label.setText( currentGesture );
+        	}
+        	else if("DRU".startsWith(currentGesture)){
+        		label.setText("    "  + currentGesture + " - You need to make a DRU");
+        	}
+        	else{
+        		label.setText("    "  + currentGesture + " - Wrong gesture! relase your mouse and try again");
+        	}*/
+        }
+        public void processGesture(String gesture) {
+            try {
+                Thread.sleep(400);
+            } catch (InterruptedException e) {}
+            label.setText(text);
+            label.setForeground(Color.BLACK);
+        }
+ });
+		 
+		 mouseGestures.start();
+		 setVisible(true);
+	}
+	
+	public static void main(String[] args){
+		final mouse frame = new mouse();
+		SwingUtilities.invokeLater(new Runnable(){
+			public void run(){
+				frame.init();
+			}
+		});
+	}
+}
